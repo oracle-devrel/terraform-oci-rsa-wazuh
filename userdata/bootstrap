@@ -1,0 +1,31 @@
+#!/bin/bash
+# Debugging / Logging
+set -x
+exec > >(tee /var/log/user-data.log|logger -t user-data ) 2>&1
+echo BEGIN
+date '+%Y-%m-%d %H:%M:%S'
+
+# Enable EPEL and install Ansible
+yum-config-manager --enable ol7_developer_EPEL
+yum -y install ansible
+
+export OCI_CLI_AUTH=instance_principal
+export PATH="$PATH:/usr/bin"
+export OCI_RSA_BASE='/opt/oci-rsa/'
+export PACKAGE_CACHE="$OCI_RSA_BASE/package_cache"
+
+mkdir -p $PACKAGE_CACHE
+
+# ${bootstrap_bucket}
+# ${bootstrap_bundle}
+
+# Temporarily disable SELinux - required for firewalld updates during user-data
+setenforce 0
+
+if [ ${bootstrap_bucket} == "UNDEFINED" ] || [ ${bootstrap_bundle} == "UNDEFINED" ]
+then
+  echo "Bootstrap values not provided. Skipping Ansbile run."
+fi
+
+# Re-enable SELinux
+setenforce 1
