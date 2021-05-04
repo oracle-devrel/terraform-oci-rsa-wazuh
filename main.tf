@@ -60,3 +60,37 @@ resource "oci_core_security_list" "wazuh_security_list" {
 data "oci_core_vcn" "test_vcn" {
   vcn_id = var.vcn_id
 }
+
+# Get a list of availability domains
+# TODO: Ensure that this data works and that we have more than one AD
+data "oci_identity_availability_domains" "ad" {
+  #compartment_id = var.tenancy_ocid
+  compartment_id = var.compartment_ocid
+}
+
+data "template_file" "ad_names" {
+  count    = length(data.oci_identity_availability_domains.ad.availability_domains)
+  template = lookup(data.oci_identity_availability_domains.ad.availability_domains[count.index], "name")
+}
+
+locals {
+  ad_names = data.template_file.ad_names.*.rendered
+}
+
+# Some debug values
+output "ad_names" {
+  value = local.ad_names
+}
+
+resource "random_shuffle" "ad2" {
+  input = local.ad_names
+  result_count = 1
+}
+
+output "random_kibana_ad" {
+  value = random_shuffle.kibana_ad.result[0]
+}
+
+output "random_ad2" {
+  value = random_shuffle.ad2.result[0]
+}

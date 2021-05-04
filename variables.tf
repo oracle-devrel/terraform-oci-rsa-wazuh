@@ -27,23 +27,23 @@ variable "route_table_id" {
 }
 
 # Autoscaling Values
-variable "wazuh_cluster_autoscaling_initial" {
-  type = number
-  description = "Wazuh cluster autoscaling instances - initial value"
-  default = 1
-}
-
-variable "wazuh_cluster_autoscaling_max" {
-  type = number
-  description = "Wazuh cluster autoscaling instances - max value"
-  default = 2
-}
-
-variable "wazuh_cluster_autoscaling_min" {
-  type = number
-  description = "Wazuh cluster autoscaling instances - minimum value"
-  default = 1
-}
+#variable "wazuh_cluster_autoscaling_initial" {
+  #type = number
+  #description = "Wazuh cluster autoscaling instances - initial value"
+  #default = 1
+#}
+#
+#variable "wazuh_cluster_autoscaling_max" {
+  #type = number
+  #description = "Wazuh cluster autoscaling instances - max value"
+  #default = 2
+#}
+#
+#variable "wazuh_cluster_autoscaling_min" {
+  #type = number
+  #description = "Wazuh cluster autoscaling instances - minimum value"
+  #default = 1
+#}
 
 # ---------------------------------------------------------------------------------------------------------------------
 # Optional inputs that change functionality
@@ -76,6 +76,24 @@ variable "wazuh_worker_instance_count" {
   type = number
   description = "Number of Wazuh worker nodes"
   default = 2
+}
+
+variable "elastic_instance_shape" {
+  type        = string
+  description = "[Elastic Instance] Shape"
+  default     = "VM.Standard2.2"
+}
+
+variable "kibana_instance_shape" {
+  type        = string
+  description = "[Kibana Instance] Shape"
+  default     = "VM.Standard2.2"
+}
+
+variable "elastic_node_instance_count" {
+  type = number
+  description = "Number of Wazuh worker nodes"
+  default = 3
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
