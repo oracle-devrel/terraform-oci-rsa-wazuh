@@ -1,6 +1,8 @@
+# ---------------------------------------------------------------------------------------------------------------------
+# Kibana server and ElasticSearch cluster
+# ---------------------------------------------------------------------------------------------------------------------
 resource "oci_core_instance" "kibana" {
   compartment_id                      = var.compartment_ocid
-  #availability_domain                 = lookup(data.oci_identity_availability_domains.ad.availability_domains[0],"name")
   availability_domain                 = random_shuffle.kibana_ad.result[0]
   shape                               = var.kibana_instance_shape
   is_pv_encryption_in_transit_enabled = true
@@ -43,8 +45,8 @@ resource "oci_core_instance" "kibana" {
 }
 
 resource "oci_core_instance" "elastic_nodes" {
-  count = var.elastic_node_instance_count
-  compartment_id                      = var.compartment_ocid
+  count          = var.elastic_node_instance_count
+  compartment_id = var.compartment_ocid
   # TODO: Dynamically pick AD so the cluster doesn't all live on the same AD or a hard coded AD
   availability_domain                 = lookup(data.oci_identity_availability_domains.ad.availability_domains[count.index],"name")
   shape                               = var.elastic_instance_shape
