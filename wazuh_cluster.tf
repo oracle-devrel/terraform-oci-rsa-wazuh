@@ -33,7 +33,7 @@ resource "oci_core_instance" "wazuh_master" {
 
   metadata = {
     ssh_authorized_keys = file (var.ssh_public_key)
-    user_data           = base64encode(data.template_file.bootstrap.rendered)
+    user_data           = base64encode(data.template_file.wazuh_cluster_bootstrap.rendered)
   }
 
   source_details {
@@ -77,7 +77,7 @@ resource "oci_core_instance" "wazuh_workers" {
 
   metadata = {
     ssh_authorized_keys = file (var.ssh_public_key)
-    user_data           = base64encode(data.template_file.bootstrap.rendered)
+    user_data           = base64encode(data.template_file.wazuh_cluster_bootstrap.rendered)
   }
 
   source_details {
@@ -115,19 +115,7 @@ resource "oci_load_balancer_backend" "wazuh_cluster_worker_backends" {
   depends_on       = [ oci_load_balancer_backend_set.wazuh_cluster_lb_backend_sets, ]
 }
 
-# Get a list of availability domains
-# TODO: Ensure that this data works and that we have more than one AD
-data "oci_identity_availability_domains" "ad" {
-  #compartment_id = var.tenancy_ocid
-  compartment_id = var.compartment_ocid
-}
-
-data "template_file" "ad_names" {
-  count    = length(data.oci_identity_availability_domains.ad.availability_domains)
-  template = lookup(data.oci_identity_availability_domains.ad.availability_domains[count.index], "name")
-}
-
-data "template_file" bootstrap {
+data "template_file" wazuh_cluster_bootstrap {
   template = file("${path.module}/userdata/bootstrap")
 
   vars = {
