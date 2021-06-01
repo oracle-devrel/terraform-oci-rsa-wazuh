@@ -83,7 +83,7 @@ variable "wazuh_cluster_lb_ports" {
 variable "wazuh_ingress_ports" {
   description = "Inbound ports used for Wazuh security list"
   type        = list(string)
-  default     = ["1514", "1515", "22"]
+  default     = ["1514", "1515", "1516", "22"]
 }
 
 variable "kibana_tcp_port" {
