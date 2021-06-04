@@ -5,7 +5,12 @@ resource "oci_core_subnet" "wazuh_subnet" {
   cidr_block          = var.wazuh_cidr_block
   display_name        = "WazuhSubnet"
   dns_label           = "wazuhsubnet"
-  security_list_ids   = [oci_core_security_list.wazuh_security_list.id, oci_core_security_list.kibana_security_list.id]
+  security_list_ids   = [
+    oci_core_security_list.wazuh_security_list.id,
+    oci_core_security_list.kibana_security_list.id,
+    oci_core_security_list.es_api_security_list.id,
+    oci_core_security_list.es_cluster_security_list.id
+  ]
   compartment_id      = var.compartment_ocid
   vcn_id              = var.vcn_id
   route_table_id      = var.route_table_id
@@ -66,6 +71,48 @@ resource "oci_core_security_list" "kibana_security_list" {
     tcp_options {
       max = var.kibana_tcp_port 
       min = var.kibana_tcp_port
+    }
+  }
+}
+
+resource "oci_core_security_list" "es_cluster_security_list" {
+  compartment_id      = var.compartment_ocid
+  vcn_id              = var.vcn_id
+  display_name        = "ES cluster Security List"
+  freeform_tags = {
+    "Description" = "ES cluster security lists"
+    "Function"    = "Ingress rule for elastic search cluster"
+  }
+
+  ingress_security_rules {
+    protocol    = var.es_cluster_ingress_security_rules_protocol
+    source      = var.wazuh_cidr_block
+    description = var.es_cluster_ingress_security_rules_description
+    stateless   = var.es_cluster_ingress_security_rules_stateless
+    tcp_options {
+      min = var.es_cluster_tcp_range_min
+      max = var.es_cluster_tcp_range_max
+    }
+  }
+}
+
+resource "oci_core_security_list" "es_api_security_list" {
+  compartment_id      = var.compartment_ocid
+  vcn_id              = var.vcn_id
+  display_name        = "ES API Security List"
+  freeform_tags = {
+    "Description" = "ES API security lists"
+    "Function"    = "Ingress rule for elastic search service API"
+  }
+
+  ingress_security_rules {
+    protocol    = var.es_api_ingress_security_rules_protocol
+    source      = var.wazuh_cidr_block
+    description = var.es_api_ingress_security_rules_description
+    stateless   = var.es_api_ingress_security_rules_stateless
+    tcp_options {
+      max = var.es_api_tcp_port 
+      min = var.es_api_tcp_port
     }
   }
 }

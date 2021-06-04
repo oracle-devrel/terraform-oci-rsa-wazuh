@@ -92,6 +92,24 @@ variable "kibana_tcp_port" {
   default     = 5601
 }
 
+variable "es_api_tcp_port" {
+  description = "[ES web port]"
+  type        = number
+  default     = 9200
+}
+
+variable "es_cluster_tcp_range_min" {
+  description = "[ES cluster range min]"
+  type        = number
+  default     = 9300
+}
+
+variable "es_cluster_tcp_range_max" {
+  description = "[ES cluster range max]"
+  type        = number
+  default     = 9400
+}
+
 # ---------------------------------------------------------------------------------------------------------------------
 # Bootstrapping setup
 # ---------------------------------------------------------------------------------------------------------------------

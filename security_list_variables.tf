@@ -62,7 +62,43 @@ variable "kibana_ingress_security_rules_protocol" {
 }
 
 variable "kibana_ingress_security_rules_stateless" {
-  description = "[Wazuh Security List]"
+  description = "[Kibana Security List]"
+  type        = bool
+  default     = false
+}
+
+variable "es_cluster_ingress_security_rules_description" {
+  description = "[ES Cluster Security List] Description"
+  default     = "ES Cluster Security List - Ingress"
+  type        = string
+}
+
+variable "es_cluster_ingress_security_rules_protocol" {
+  description = "[ES Cluster Security List] Ingress Protocol"
+  default     = "6"
+  type        = string
+}
+
+variable "es_cluster_ingress_security_rules_stateless" {
+  description = "[ES Cluster Security List]"
+  type        = bool
+  default     = false
+}
+
+variable "es_api_ingress_security_rules_description" {
+  description = "[ES API Security List] Description"
+  default     = "ES API Security List - Ingress"
+  type        = string
+}
+
+variable "es_api_ingress_security_rules_protocol" {
+  description = "[ES API Security List] Ingress Protocol"
+  default     = "6"
+  type        = string
+}
+
+variable "es_api_ingress_security_rules_stateless" {
+  description = "[ES API Security List]"
   type        = bool
   default     = false
 }
