@@ -90,15 +90,42 @@ resource "oci_core_instance" "elastic_nodes" {
 }
 
 data "template_file" elastic_bootstrap {
-  template = file("${path.module}/userdata/bootstrap")
+  template = file("${path.module}/userdata/elastic_bootstrap")
 
   vars = {
     bootstrap_bucket = var.bootstrap_bucket
     bootstrap_bundle = var.wazuh_bootstrap_bundle
+    ca_key           = tls_private_key.ca.private_key_pem
+    ca_crt           = tls_self_signed_cert.ca.cert_pem
   }
 }
 
 resource "random_shuffle" "kibana_ad" {
   input = local.ad_names
   result_count = 1
+}
+
+resource "tls_private_key" "ca" {
+  algorithm = "RSA"
+  rsa_bits  = "4096"
+}
+
+resource "tls_self_signed_cert" "ca" {
+  key_algorithm     = "RSA"
+  private_key_pem   = tls_private_key.ca.private_key_pem
+  is_ca_certificate = true
+
+  subject {
+    common_name         = "Self Signed CA"
+    organization        = "Self Signed"
+    organizational_unit = "na"
+  }
+
+  validity_period_hours = 87659
+
+  allowed_uses = [
+    "digital_signature",
+    "cert_signing",
+    "crl_signing",
+  ]
 }
