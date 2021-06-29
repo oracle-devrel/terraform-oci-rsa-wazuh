@@ -32,7 +32,7 @@ variable "route_table_id" {
 variable "wazuh_cidr_block" {
   type        = string
   description = "[Wazuh Subnet] CIDR Block - Should be within the VCN range"
-  default     = "10.0.2.0/24"
+  default     = "10.1.2.0/24"
 }
 
 variable "wazuh_master_instance_shape" {

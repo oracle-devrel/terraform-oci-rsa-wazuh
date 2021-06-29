@@ -121,5 +121,6 @@ data "template_file" wazuh_cluster_bootstrap {
   vars = {
     bootstrap_bucket = var.bootstrap_bucket
     bootstrap_bundle = var.wazuh_bootstrap_bundle
+    playbook_name = var.playbook_name
   }
 }
