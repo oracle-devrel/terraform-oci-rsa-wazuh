@@ -6,12 +6,13 @@ echo BEGIN
 date '+%Y-%m-%d %H:%M:%S'
 
 # Enable EPEL and install Ansible
+yum -y update
 yum-config-manager --enable ol7_developer_EPEL
 yum -y install ansible
 
 export OCI_CLI_AUTH=instance_principal
 export PATH="$PATH:/usr/bin"
-export OCI_RSA_BASE='/opt/oci-rsa/'
+export OCI_RSA_BASE='/opt/oci-rsa'
 export PACKAGE_CACHE="$OCI_RSA_BASE/package_cache"
 
 mkdir -p $PACKAGE_CACHE
