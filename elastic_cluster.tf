@@ -31,7 +31,7 @@ resource "oci_core_instance" "kibana" {
 
   source_details {
     source_type = "image"
-    source_id   = var.instance_image_ocid[var.region]
+    source_id   = data.oci_core_images.autonomous_images.images.0.id
   }
 
   launch_options {
@@ -76,7 +76,7 @@ resource "oci_core_instance" "elastic_nodes" {
 
   source_details {
     source_type = "image"
-    source_id   = var.instance_image_ocid[var.region]
+    source_id   = data.oci_core_images.autonomous_images.images.0.id
   }
 
   launch_options {
@@ -86,17 +86,6 @@ resource "oci_core_instance" "elastic_nodes" {
 
   timeouts {
     create = "10m"
-  }
-}
-
-data "template_file" elastic_bootstrap {
-  template = file("${path.module}/userdata/elastic_bootstrap")
-
-  vars = {
-    bootstrap_bucket = var.bootstrap_bucket
-    bootstrap_bundle = var.wazuh_bootstrap_bundle
-    ca_key           = tls_private_key.ca.private_key_pem
-    ca_crt           = tls_self_signed_cert.ca.cert_pem
   }
 }
 
