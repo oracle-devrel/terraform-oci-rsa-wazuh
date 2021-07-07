@@ -89,17 +89,6 @@ resource "oci_core_instance" "elastic_nodes" {
   }
 }
 
-data "template_file" elastic_bootstrap {
-  template = file("${path.module}/userdata/elastic_bootstrap")
-
-  vars = {
-    bootstrap_bucket = var.bootstrap_bucket
-    bootstrap_bundle = var.wazuh_bootstrap_bundle
-    ca_key           = tls_private_key.ca.private_key_pem
-    ca_crt           = tls_self_signed_cert.ca.cert_pem
-  }
-}
-
 resource "random_shuffle" "kibana_ad" {
   input = local.ad_names
   result_count = 1
