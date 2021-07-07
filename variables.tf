@@ -128,7 +128,6 @@ variable "wazuh_bootstrap_bundle" {
 variable "playbook_name" {
   type        = string
   description = "Playbook name for wazuh master or worker"
-  default     = "UNDEFINED"
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
