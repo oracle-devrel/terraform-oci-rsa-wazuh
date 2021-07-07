@@ -115,11 +115,3 @@ resource "oci_load_balancer_backend" "wazuh_cluster_worker_backends" {
   depends_on       = [ oci_load_balancer_backend_set.wazuh_cluster_lb_backend_sets, ]
 }
 
-data "template_file" wazuh_cluster_bootstrap {
-  template = file("${path.module}/userdata/bootstrap")
-
-  vars = {
-    bootstrap_bucket = var.bootstrap_bucket
-    bootstrap_bundle = var.wazuh_bootstrap_bundle
-  }
-}
