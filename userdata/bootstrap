@@ -6,12 +6,13 @@ echo BEGIN
 date '+%Y-%m-%d %H:%M:%S'
 
 # Enable EPEL and install Ansible
+yum -y update
 yum-config-manager --enable ol7_developer_EPEL
 yum -y install ansible
 
 export OCI_CLI_AUTH=instance_principal
 export PATH="$PATH:/usr/bin"
-export OCI_RSA_BASE='/opt/oci-rsa/'
+export OCI_RSA_BASE='/opt/oci-rsa'
 export PACKAGE_CACHE="$OCI_RSA_BASE/package_cache"
 
 mkdir -p $PACKAGE_CACHE
@@ -25,6 +26,14 @@ setenforce 0
 if [ ${bootstrap_bucket} == "UNDEFINED" ] || [ ${bootstrap_bundle} == "UNDEFINED" ]
 then
   echo "Bootstrap values not provided. Skipping Ansbile run."
+else
+  oci os object get -bn ${bootstrap_bucket} --file $PACKAGE_CACHE/${bootstrap_bundle} --name ${bootstrap_bundle}
+  if [ $? -eq 0 ]
+  then
+    tar zxf $PACKAGE_CACHE/${bootstrap_bundle} -C $OCI_RSA_BASE
+    export ANSIBLE_ROLES_PATH="$OCI_RSA_BASE/${playbook_name}/.galaxy"
+    ansible-playbook -i localhost, $OCI_RSA_BASE/${playbook_name}/main.yml --connection=local
+  fi
 fi
 
 # Re-enable SELinux
