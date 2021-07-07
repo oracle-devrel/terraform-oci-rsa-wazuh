@@ -32,7 +32,7 @@ variable "route_table_id" {
 variable "wazuh_cidr_block" {
   type        = string
   description = "[Wazuh Subnet] CIDR Block - Should be within the VCN range"
-  default     = "10.0.2.0/24"
+  default     = "10.1.2.0/24"
 }
 
 variable "wazuh_master_instance_shape" {
@@ -121,14 +121,13 @@ variable "bootstrap_bucket" {
 
 variable "wazuh_bootstrap_bundle" {
   type        = string
-  description = "File name for the bootstrap bundle."
+  description = "File name for the bootstrap bundle for master or worker."
   default     = "UNDEFINED"
 }
 
 variable "playbook_name" {
   type        = string
-  description = "Playbook name for wazuh"
-  default     = "oci-rsa-ansible-wazuh"
+  description = "Playbook name for wazuh master or worker"
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
