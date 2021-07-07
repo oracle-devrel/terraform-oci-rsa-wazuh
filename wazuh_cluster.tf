@@ -38,7 +38,7 @@ resource "oci_core_instance" "wazuh_master" {
 
   source_details {
     source_type = "image"
-    source_id   = var.instance_image_ocid[var.region]
+    source_id   = data.oci_core_images.autonomous_images.images.0.id
   }
 
   launch_options {
@@ -82,7 +82,7 @@ resource "oci_core_instance" "wazuh_workers" {
 
   source_details {
     source_type = "image"
-    source_id   = var.instance_image_ocid[var.region]
+    source_id   = data.oci_core_images.autonomous_images.images.0.id
   }
 
   launch_options {
@@ -115,12 +115,4 @@ resource "oci_load_balancer_backend" "wazuh_cluster_worker_backends" {
   depends_on       = [ oci_load_balancer_backend_set.wazuh_cluster_lb_backend_sets, ]
 }
 
-data "template_file" wazuh_cluster_bootstrap {
-  template = file("${path.module}/userdata/bootstrap")
 
-  vars = {
-    bootstrap_bucket = var.bootstrap_bucket
-    bootstrap_bundle = var.wazuh_bootstrap_bundle
-    playbook_name = var.playbook_name
-  }
-}
