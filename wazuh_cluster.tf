@@ -114,5 +114,3 @@ resource "oci_load_balancer_backend" "wazuh_cluster_worker_backends" {
   port             = each.value.port_number
   depends_on       = [ oci_load_balancer_backend_set.wazuh_cluster_lb_backend_sets, ]
 }
-
-
