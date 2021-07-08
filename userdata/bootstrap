@@ -20,6 +20,17 @@ mkdir -p $PACKAGE_CACHE
 # ${bootstrap_bucket}
 # ${bootstrap_bundle}
 
+# Prep self signed CA location
+umask 077
+mkdir -p /etc/ssl/local/certs
+cat > /etc/ssl/local/certs/root-ca.pem << EOF
+${ca_crt}
+EOF
+
+cat > /etc/ssl/local/certs/root-ca.key << EOF
+${ca_key}
+EOF
+
 # Temporarily disable SELinux - required for firewalld updates during user-data
 setenforce 0
 
