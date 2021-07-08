@@ -32,7 +32,7 @@ variable "route_table_id" {
 variable "wazuh_cidr_block" {
   type        = string
   description = "[Wazuh Subnet] CIDR Block - Should be within the VCN range"
-  default     = "10.1.2.0/24"
+  default     = "10.0.2.0/24"
 }
 
 variable "wazuh_master_instance_shape" {
@@ -83,7 +83,7 @@ variable "wazuh_cluster_lb_ports" {
 variable "wazuh_ingress_ports" {
   description = "Inbound ports used for Wazuh security list"
   type        = list(string)
-  default     = ["1514", "1515", "1516", "22"]
+  default     = ["1514", "1515", "1516", "22", "55000"]
 }
 
 variable "kibana_tcp_port" {
@@ -125,9 +125,10 @@ variable "wazuh_bootstrap_bundle" {
   default     = "UNDEFINED"
 }
 
-variable "playbook_name" {
+variable "wazuh_playbook_name" {
   type        = string
   description = "Playbook name for wazuh master or worker"
+  default     = "UNDEFINED"
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
