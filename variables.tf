@@ -131,6 +131,18 @@ variable "wazuh_playbook_name" {
   default     = "UNDEFINED"
 }
 
+variable "elastic_bootstrap_bundle" {
+  type        = string
+  description = "Playbook name for elastic cluster"
+  default     = "UNDEFINED"
+}
+
+variable "elastic_playbook_name" {
+  type        = string
+  description = "Playbook name for elastic cluster"
+  default     = "UNDEFINED"
+}
+
 # ---------------------------------------------------------------------------------------------------------------------
 # Image setup
 # ---------------------------------------------------------------------------------------------------------------------
