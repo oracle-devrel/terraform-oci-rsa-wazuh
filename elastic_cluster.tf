@@ -26,7 +26,7 @@ resource "oci_core_instance" "kibana" {
 
   metadata = {
     ssh_authorized_keys = file (var.ssh_public_key)
-    user_data           = base64encode(data.template_file.elastic_bootstrap.rendered)
+    user_data           = base64encode(data.template_file.kibana_bootstrap.rendered)
   }
 
   source_details {
