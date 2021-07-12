@@ -5,8 +5,9 @@ exec > >(tee /var/log/user-data.log|logger -t user-data ) 2>&1
 echo BEGIN
 date '+%Y-%m-%d %H:%M:%S'
 
+yum update -y
+
 # Enable EPEL and install Ansible
-yum -y update
 yum-config-manager --enable ol7_developer_EPEL
 yum -y install ansible
 
