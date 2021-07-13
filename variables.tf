@@ -143,6 +143,18 @@ variable "elastic_playbook_name" {
   default     = "UNDEFINED"
 }
 
+variable "kibana_bootstrap_bundle" {
+  type        = string
+  description = "Playbook name for kibana"
+  default     = "UNDEFINED"
+}
+
+variable "kibana_playbook_name" {
+  type        = string
+  description = "Playbook name for kibana"
+  default     = "UNDEFINED"
+}
+
 # ---------------------------------------------------------------------------------------------------------------------
 # Image setup
 # ---------------------------------------------------------------------------------------------------------------------
