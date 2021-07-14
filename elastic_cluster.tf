@@ -118,3 +118,15 @@ resource "tls_self_signed_cert" "ca" {
     "crl_signing",
   ]
 }
+
+resource "random_password" "opendistro_kibana_password" {
+  length = 16
+  special = true
+  override_special = "_%@"
+}
+
+resource "random_password" "opendistro_admin_password" {
+  length = 16
+  special = true
+  override_special = "_%@"
+}
