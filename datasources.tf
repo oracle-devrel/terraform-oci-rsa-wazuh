@@ -51,5 +51,7 @@ data "template_file" wazuh_cluster_bootstrap {
     playbook_name    = var.wazuh_playbook_name
     ca_key           = tls_private_key.ca.private_key_pem
     ca_crt           = tls_self_signed_cert.ca.cert_pem
+    wazuh_user            = "wazuh"
+    wazuh_password   = random_password.wazuh_password.result
   }
 }
