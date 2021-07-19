@@ -13,7 +13,7 @@ yum -y install ansible
 
 export OCI_CLI_AUTH=instance_principal
 export PATH="$PATH:/usr/bin"
-export OCI_RSA_BASE='/opt/oci-rsa'
+export OCI_RSA_BASE="/opt/oci-rsa"
 export PACKAGE_CACHE="$OCI_RSA_BASE/package_cache"
 
 mkdir -p $PACKAGE_CACHE
@@ -32,12 +32,14 @@ cat > /etc/ssl/local/certs/root-ca.key << EOF
 ${ca_key}
 EOF
 
-cat << EOF > $OCI_RSA_BASE/attributes.json
-{
-  "wazuh_user": "${wazuh_user}",
-  "wazuh_password": "${wazuh_password}"
-}
+function write_passwords_to_yml {
+  cat << EOF > $OCI_RSA_BASE/extra-variables.yml
+  wazuh_api_user:
+    - password: "${wazuh_password}"
+    - username: "wazuh"
+  elasticsearch_security_password: "${opendistro_admin_password}"
 EOF
+}
 
 # Temporarily disable SELinux - required for firewalld updates during user-data
 setenforce 0
@@ -50,8 +52,9 @@ else
   if [ $? -eq 0 ]
   then
     tar zxf $PACKAGE_CACHE/${bootstrap_bundle} -C $OCI_RSA_BASE
+    write_passwords_to_yml;
     export ANSIBLE_ROLES_PATH="$OCI_RSA_BASE/${playbook_name}/.galaxy"
-    ansible-playbook -i localhost, $OCI_RSA_BASE/${playbook_name}/main.yml --connection=local --extra-vars $OCI_RSA_BASE/attributes.json
+    ansible-playbook -i localhost, $OCI_RSA_BASE/${playbook_name}/main.yml --connection=local
   fi
 fi
 
