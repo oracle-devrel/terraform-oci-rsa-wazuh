@@ -52,7 +52,7 @@ else
     tar zxf $PACKAGE_CACHE/${bootstrap_bundle} -C $OCI_RSA_BASE
     write_passwords_to_yml;
     export ANSIBLE_ROLES_PATH="$OCI_RSA_BASE/${playbook_name}/.galaxy"
-    ansible-playbook -i localhost, $OCI_RSA_BASE/${playbook_name}/main.yml --connection=local --extra-vars "$OCI_RSA_BASE/attributes.json"
+    ansible-playbook -i localhost, $OCI_RSA_BASE/${playbook_name}/main.yml --connection=local
   fi
 fi
 
