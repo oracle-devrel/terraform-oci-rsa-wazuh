@@ -13,7 +13,7 @@ output "wazuh_subnet_cidr" {
 # Return the passwords for ElasticSearch and Wazuh
 # ---------------------------------------------------------------------------------------------------------------------
 output "wazuh_password" {
-  value = sha256(random_password.wazuh_password.result)
+  value = random_password.wazuh_password.result
 }
 
 output "opendistro_kibana_password" {
