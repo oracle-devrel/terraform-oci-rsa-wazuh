@@ -32,17 +32,25 @@ cat > /etc/ssl/local/certs/root-ca.key << EOF
 ${ca_key}
 EOF
 
+function write_passwords_to_yml {
+  cat << EOF > $OCI_RSA_BASE/extra-variables.yml
+  opendistro_admin_password: "${opendistro_admin_password}"
+  opendistro_kibana_password: "${opendistro_kibana_password}"
+EOF
+}
+
 # Temporarily disable SELinux - required for firewalld updates during user-data
 setenforce 0
 
 if [ ${bootstrap_bucket} == "UNDEFINED" ] || [ ${bootstrap_bundle} == "UNDEFINED" ]
 then
-  echo "Bootstrap values not provided. Skipping Ansbile run."
+  echo "Bootstrap values not provided. Skipping Ansible run."
 else
   oci os object get -bn ${bootstrap_bucket} --file $PACKAGE_CACHE/${bootstrap_bundle} --name ${bootstrap_bundle}
   if [ $? -eq 0 ]
   then
     tar zxf $PACKAGE_CACHE/${bootstrap_bundle} -C $OCI_RSA_BASE
+    write_passwords_to_yml;
     export ANSIBLE_ROLES_PATH="$OCI_RSA_BASE/${playbook_name}/.galaxy"
     ansible-playbook -i localhost, $OCI_RSA_BASE/${playbook_name}/main.yml --connection=local
   fi
