@@ -16,11 +16,13 @@ data "template_file" elastic_bootstrap {
   template = file("${path.module}/userdata/elastic_bootstrap")
 
   vars = {
-    bootstrap_bucket = var.bootstrap_bucket
-    bootstrap_bundle = var.elastic_bootstrap_bundle
-    playbook_name    = var.elastic_playbook_name
-    ca_key           = tls_private_key.ca.private_key_pem
-    ca_crt           = tls_self_signed_cert.ca.cert_pem
+    bootstrap_bucket           = var.bootstrap_bucket
+    bootstrap_bundle           = var.elastic_bootstrap_bundle
+    playbook_name              = var.elastic_playbook_name
+    ca_key                     = tls_private_key.ca.private_key_pem
+    ca_crt                     = tls_self_signed_cert.ca.cert_pem
+    opendistro_admin_password  = random_password.opendistro_admin_password.result
+    opendistro_kibana_password = random_password.opendistro_kibana_password.result
   }
 }
 
@@ -31,11 +33,14 @@ data "template_file" kibana_bootstrap {
   template = file("${path.module}/userdata/kibana_bootstrap")
 
   vars = {
-    bootstrap_bucket = var.bootstrap_bucket
-    bootstrap_bundle = var.kibana_bootstrap_bundle
-    playbook_name    = var.kibana_playbook_name
-    ca_key           = tls_private_key.ca.private_key_pem
-    ca_crt           = tls_self_signed_cert.ca.cert_pem
+    bootstrap_bucket           = var.bootstrap_bucket
+    bootstrap_bundle           = var.kibana_bootstrap_bundle
+    playbook_name              = var.kibana_playbook_name
+    ca_key                     = tls_private_key.ca.private_key_pem
+    ca_crt                     = tls_self_signed_cert.ca.cert_pem
+    opendistro_kibana_password = random_password.opendistro_kibana_password.result
+    opendistro_admin_password  = random_password.opendistro_admin_password.result
+    wazuh_password             = random_password.wazuh_password.result
   }
 }
 
@@ -43,13 +48,15 @@ data "template_file" kibana_bootstrap {
 # Wazuh bootstrap script and variables
 # ---------------------------------------------------------------------------------------------------------------------
 data "template_file" wazuh_cluster_bootstrap {
-  template = file("${path.module}/userdata/bootstrap")
+  template = file("${path.module}/userdata/wazuh_bootstrap")
 
   vars = {
-    bootstrap_bucket = var.bootstrap_bucket
-    bootstrap_bundle = var.wazuh_bootstrap_bundle
-    playbook_name    = var.wazuh_playbook_name
-    ca_key           = tls_private_key.ca.private_key_pem
-    ca_crt           = tls_self_signed_cert.ca.cert_pem
+    bootstrap_bucket           = var.bootstrap_bucket
+    bootstrap_bundle           = var.wazuh_bootstrap_bundle
+    playbook_name              = var.wazuh_playbook_name
+    ca_key                     = tls_private_key.ca.private_key_pem
+    ca_crt                     = tls_self_signed_cert.ca.cert_pem
+    wazuh_password             = random_password.wazuh_password.result
+    opendistro_admin_password  = random_password.opendistro_admin_password.result
   }
 }
