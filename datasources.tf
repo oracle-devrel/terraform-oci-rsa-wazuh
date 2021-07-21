@@ -48,7 +48,7 @@ data "template_file" kibana_bootstrap {
 # Wazuh bootstrap script and variables
 # ---------------------------------------------------------------------------------------------------------------------
 data "template_file" wazuh_cluster_bootstrap {
-  template = file("${path.module}/userdata/bootstrap")
+  template = file("${path.module}/userdata/wazuh_bootstrap")
 
   vars = {
     bootstrap_bucket           = var.bootstrap_bucket
@@ -56,7 +56,6 @@ data "template_file" wazuh_cluster_bootstrap {
     playbook_name              = var.wazuh_playbook_name
     ca_key                     = tls_private_key.ca.private_key_pem
     ca_crt                     = tls_self_signed_cert.ca.cert_pem
-    wazuh_user                 = "wazuh"
     wazuh_password             = random_password.wazuh_password.result
     opendistro_admin_password  = random_password.opendistro_admin_password.result
   }
