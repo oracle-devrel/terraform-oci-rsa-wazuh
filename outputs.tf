@@ -23,3 +23,11 @@ output "opendistro_kibana_password" {
 output "opendistro_admin_password" {
   value = random_password.opendistro_admin_password.result
 }
+
+# ---------------------------------------------------------------------------------------------------------------------
+# Return Wazuh Backup Bucket
+# ---------------------------------------------------------------------------------------------------------------------
+
+output "wazuh_backup_bucket_name" {
+  value = module.objectstore.wazuh_backup_bucket_name
+}
