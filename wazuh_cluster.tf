@@ -122,3 +122,19 @@ resource "random_password" "wazuh_password" {
   min_upper        = 2
   min_lower        = 2
 }
+
+module "objectstore" {
+  source           = "./wazuh_logs/objectstore"
+  compartment_ocid = var.compartment_ocid
+  os_namespace     = var.os_namespace
+  unique_prefix    = var.unique_prefix
+  bucket_suffix    = "wazuh-backup-bucket"
+}
+
+module "iam" {
+  source                    = "./wazuh_logs/iam"
+  tenancy_ocid              = var.tenancy_ocid
+  compartment_ocid          = var.compartment_ocid
+  region                    = var.region
+  wazuh_backup_bucket_name  = module.objectstore.wazuh_backup_bucket_name
+}
