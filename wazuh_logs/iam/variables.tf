@@ -9,6 +9,6 @@ variable "wazuh_backup_bucket_name" {
 
 variable "oci_dg_prefix" {
   type = string
-  description = "[OCI CaaS] Dynamic group name, used for bucket access"
-  default = "oci_caas_bucket_access"
+  description = "[OCI RSA] Dynamic group name, used for bucket access"
+  default = "oci_rsa_bucket_access"
 }
