@@ -6,6 +6,11 @@ variable "compartment_ocid" {
   description = "OCID for the target compartment"
 }
 
+variable "tenancy_ocid" {
+  type        = string
+  description = "OCID for the target tenancy"
+}
+
 variable "vcn_id" {
   type        = string
   description = "OCID for the target VCN"
@@ -26,13 +31,23 @@ variable "route_table_id" {
   description = "Default route table for Wazuh subnet"
 }
 
+variable "os_namespace" {
+  type        = string
+  description = "Bucket Namespace"
+}
+
+variable "unique_prefix" {
+  type        = string
+  description = "Unique Identifier for the Compartment"
+}
+
 # ---------------------------------------------------------------------------------------------------------------------
 # Optional inputs
 # ---------------------------------------------------------------------------------------------------------------------
 variable "wazuh_cidr_block" {
   type        = string
   description = "[Wazuh Subnet] CIDR Block - Should be within the VCN range"
-  default     = "10.0.2.0/24"
+  default     = "10.1.0.0/24"
 }
 
 variable "wazuh_master_instance_shape" {
