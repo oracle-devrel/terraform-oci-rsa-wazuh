@@ -58,6 +58,6 @@ data "template_file" wazuh_cluster_bootstrap {
     ca_crt                     = tls_self_signed_cert.ca.cert_pem
     wazuh_password             = random_password.wazuh_password.result
     opendistro_admin_password  = random_password.opendistro_admin_password.result
-    wazuh_backup_bucket_name   = oci_objectstorage_bucket.wazuh_backup_bucket.name
+    wazuh_backup_bucket_name   = module.objectstore.wazuh_backup_bucket_name
   }
 }
