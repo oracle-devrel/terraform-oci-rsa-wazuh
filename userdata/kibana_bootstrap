@@ -37,6 +37,7 @@ function write_passwords_to_yml {
   opendistro_kibana_password: "${opendistro_kibana_password}"
   opendistro_admin_password: "${opendistro_admin_password}"
   wazuh_password: "${wazuh_password}"
+  ansible_playbook_name: "${playbook_name}"
 EOF
 }
 
