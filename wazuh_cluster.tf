@@ -119,10 +119,10 @@ resource "random_password" "wazuh_password" {
   length           = 16
   special          = true
   number           = true
-  override_special = "_%@!&*$#^-()"
   min_upper        = 2
   min_lower        = 2
   min_numeric      = 2
+  min_special      = 1
 }
 
 module "objectstore" {
