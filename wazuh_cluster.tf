@@ -118,9 +118,11 @@ resource "oci_load_balancer_backend" "wazuh_cluster_worker_backends" {
 resource "random_password" "wazuh_password" {
   length           = 16
   special          = true
-  override_special = "_%@"
+  number           = true
+  override_special = "_%@!&*$#^-()"
   min_upper        = 2
   min_lower        = 2
+  min_numeric      = 2
 }
 
 module "objectstore" {

@@ -120,13 +120,21 @@ resource "tls_self_signed_cert" "ca" {
 }
 
 resource "random_password" "opendistro_kibana_password" {
-  length = 16
-  special = true
-  override_special = "_%@"
+  length           = 16
+  special          = true
+  number           = true
+  override_special = "_%@!&*$#^-()"
+  min_upper        = 2
+  min_lower        = 2
+  min_numeric      = 2
 }
 
 resource "random_password" "opendistro_admin_password" {
-  length = 16
-  special = true
-  override_special = "_%@"
+  length           = 16
+  special          = true
+  number           = true
+  override_special = "_%@!&*$#^-()"
+  min_upper        = 2
+  min_lower        = 2
+  min_numeric      = 2
 }
