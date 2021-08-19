@@ -56,6 +56,7 @@ else
     tar zxf $PACKAGE_CACHE/${bootstrap_bundle} -C $OCI_RSA_BASE
     write_passwords_to_yml;
     export ANSIBLE_ROLES_PATH="$OCI_RSA_BASE/${playbook_name}/.galaxy"
+    umask 022
     ansible-playbook -i localhost, $OCI_RSA_BASE/${playbook_name}/main.yml --connection=local
   fi
 fi
