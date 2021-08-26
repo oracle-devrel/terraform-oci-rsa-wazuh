@@ -129,33 +129,15 @@ variable "bootstrap_bucket" {
   default     = "UNDEFINED"
 }
 
-variable "wazuh_bootstrap_bundle" {
-  type        = string
-  description = "File name for the bootstrap bundle for master or worker."
-  default     = "UNDEFINED"
-}
-
 variable "wazuh_playbook_name" {
   type        = string
   description = "Playbook name for wazuh master or worker"
   default     = "UNDEFINED"
 }
 
-variable "elastic_bootstrap_bundle" {
-  type        = string
-  description = "Playbook name for elastic cluster"
-  default     = "UNDEFINED"
-}
-
 variable "elastic_playbook_name" {
   type        = string
   description = "Playbook name for elastic cluster"
-  default     = "UNDEFINED"
-}
-
-variable "kibana_bootstrap_bundle" {
-  type        = string
-  description = "Playbook name for kibana"
   default     = "UNDEFINED"
 }
 

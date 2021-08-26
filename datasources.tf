@@ -17,7 +17,6 @@ data "template_file" elastic_bootstrap {
 
   vars = {
     bootstrap_bucket           = var.bootstrap_bucket
-    bootstrap_bundle           = var.elastic_bootstrap_bundle
     playbook_name              = var.elastic_playbook_name
     ca_key                     = tls_private_key.ca.private_key_pem
     ca_crt                     = tls_self_signed_cert.ca.cert_pem
@@ -34,7 +33,6 @@ data "template_file" kibana_bootstrap {
 
   vars = {
     bootstrap_bucket           = var.bootstrap_bucket
-    bootstrap_bundle           = var.kibana_bootstrap_bundle
     playbook_name              = var.kibana_playbook_name
     ca_key                     = tls_private_key.ca.private_key_pem
     ca_crt                     = tls_self_signed_cert.ca.cert_pem
@@ -52,7 +50,6 @@ data "template_file" wazuh_cluster_bootstrap {
 
   vars = {
     bootstrap_bucket           = var.bootstrap_bucket
-    bootstrap_bundle           = var.wazuh_bootstrap_bundle
     playbook_name              = var.wazuh_playbook_name
     ca_key                     = tls_private_key.ca.private_key_pem
     ca_crt                     = tls_self_signed_cert.ca.cert_pem
