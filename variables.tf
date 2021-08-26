@@ -31,11 +31,6 @@ variable "route_table_id" {
   description = "Default route table for Wazuh subnet"
 }
 
-variable "os_namespace" {
-  type        = string
-  description = "Bucket Namespace"
-}
-
 variable "unique_prefix" {
   type        = string
   description = "Unique Identifier for the Compartment"
