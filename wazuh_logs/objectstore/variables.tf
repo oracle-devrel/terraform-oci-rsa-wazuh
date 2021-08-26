@@ -1,8 +1,4 @@
 variable "compartment_ocid" {}
-variable "os_namespace" {
-  type = string
-  description = "Namespace for object storage"
-}
 
 variable "unique_prefix" {
   type = string

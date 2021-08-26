@@ -128,7 +128,6 @@ resource "random_password" "wazuh_password" {
 module "objectstore" {
   source           = "./wazuh_logs/objectstore"
   compartment_ocid = var.compartment_ocid
-  os_namespace     = var.os_namespace
   unique_prefix    = var.unique_prefix
   bucket_suffix    = "wazuh-backup-bucket"
 }
