@@ -19,6 +19,7 @@ export PACKAGE_CACHE="$OCI_RSA_BASE/package_cache"
 mkdir -p $PACKAGE_CACHE
 
 # ${bootstrap_bucket}
+# ${bootstrap_bundle}
 
 # Prep self signed CA location
 umask 077
@@ -38,21 +39,20 @@ function write_passwords_to_yml {
       password: "${wazuh_password}"
   elasticsearch_security_password: "${opendistro_admin_password}"
   wazuh_backup_bucket_name: "${wazuh_backup_bucket_name}"
-  ansible_playbook_name: "${playbook_name}"
 EOF
 }
 
 # Temporarily disable SELinux - required for firewalld updates during user-data
 setenforce 0
 
-if [ ${bootstrap_bucket} == "UNDEFINED" ] || [ ${playbook_name} == "UNDEFINED" ]
+if [ ${bootstrap_bucket} == "UNDEFINED" ] || [ ${bootstrap_bundle} == "UNDEFINED" ]
 then
   echo "Bootstrap values not provided. Skipping Ansible run."
 else
-  oci os object get -bn ${bootstrap_bucket} --file $PACKAGE_CACHE/${playbook_name}.tgz --name ${playbook_name}.tgz
+  oci os object get -bn ${bootstrap_bucket} --file $PACKAGE_CACHE/${bootstrap_bundle} --name ${bootstrap_bundle}
   if [ $? -eq 0 ]
   then
-    tar zxf $PACKAGE_CACHE/${playbook_name}.tgz -C $OCI_RSA_BASE
+    tar zxf $PACKAGE_CACHE/${bootstrap_bundle} -C $OCI_RSA_BASE
     write_passwords_to_yml;
     export ANSIBLE_ROLES_PATH="$OCI_RSA_BASE/${playbook_name}/.galaxy"
     umask 022
