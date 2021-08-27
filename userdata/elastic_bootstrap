@@ -42,7 +42,7 @@ EOF
 # Temporarily disable SELinux - required for firewalld updates during user-data
 setenforce 0
 
-if [ ${bootstrap_bucket} == "UNDEFINED" ] || [ ${playbook_name} == "UNDEFINED" ]
+if [ ${bootstrap_bucket} == "UNDEFINED" ] || [ ${bootstrap_bundle} == "UNDEFINED" ]
 then
   echo "Bootstrap values not provided. Skipping Ansible run."
 else
