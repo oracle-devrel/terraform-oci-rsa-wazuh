@@ -39,7 +39,6 @@ function write_passwords_to_yml {
       password: "${wazuh_password}"
   elasticsearch_security_password: "${opendistro_admin_password}"
   wazuh_backup_bucket_name: "${wazuh_backup_bucket_name}"
-  ansible_playbook_name: "${playbook_name}"
 EOF
 }
 
