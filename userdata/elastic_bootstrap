@@ -36,7 +36,6 @@ function write_passwords_to_yml {
   cat << EOF > $OCI_RSA_BASE/extra-variables.yml
   opendistro_admin_password: "${opendistro_admin_password}"
   opendistro_kibana_password: "${opendistro_kibana_password}"
-  ansible_playbook_name: "${playbook_name}"
 EOF
 }
 
