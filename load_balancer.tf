@@ -26,11 +26,8 @@ resource "oci_load_balancer_backend_set" "wazuh_cluster_lb_backend_sets" {
 
   health_checker {
     port                = var.wazuh_cluster_lb_ports[count.index]
-    protocol            = "HTTP"
-    response_body_regex = ".*"
-    url_path            = "/"
+    protocol            = "TCP"
     interval_ms         = "10000"
-    return_code         = "200"
     timeout_in_millis   = "3000"
     retries             = "3"
   }
