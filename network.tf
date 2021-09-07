@@ -118,27 +118,27 @@ resource "oci_core_security_list" "es_api_security_list" {
 }
 
 resource "oci_dns_zone" "wazuh_dns_zone" {
-    compartment_id = var.compartment_ocid
-    name = var.dns_zone_name
-    zone_type = var.dns_zone_type
-    scope = var.dns_zone_scope
-    view_id = data.oci_dns_views.primary_view.views[0].id
+  compartment_id = var.compartment_ocid
+  name = var.dns_zone_name
+  zone_type = var.dns_zone_type
+  scope = var.dns_zone_scope
+  view_id = data.oci_dns_views.primary_view.views[0].id
 }
 
 resource "oci_dns_rrset" "wazuhlb_dns_record" {
-    domain = "${var.wazuh_record_items_domain}.${var.dns_zone_name}"
-    rtype = var.wazuh_record_items_rtype
-    zone_name_or_id = oci_dns_zone.wazuh_dns_zone.id
-    compartment_id = var.compartment_ocid
+  domain = "${var.wazuh_record_items_domain}.${var.dns_zone_name}"
+  rtype = var.wazuh_record_items_rtype
+  zone_name_or_id = oci_dns_zone.wazuh_dns_zone.id
+  compartment_id = var.compartment_ocid
 
-    items {
-        domain = "${var.wazuh_record_items_domain}.${var.dns_zone_name}"
-        rdata = oci_load_balancer.wazuh_cluster_load_balancer.ip_address_details[0].ip_address
-        rtype = var.wazuh_record_items_rtype
-        ttl = var.wazuh_record_items_ttl
-    }
-    scope = var.dns_zone_scope
-    view_id = data.oci_dns_views.primary_view.views[0].id
+  items {
+      domain = "${var.wazuh_record_items_domain}.${var.dns_zone_name}"
+      rdata = oci_load_balancer.wazuh_cluster_load_balancer.ip_address_details[0].ip_address
+      rtype = var.wazuh_record_items_rtype
+      ttl = var.wazuh_record_items_ttl
+  }
+  scope = var.dns_zone_scope
+  view_id = data.oci_dns_views.primary_view.views[0].id
 }
 
 data "oci_core_vcn" "vcn" {
