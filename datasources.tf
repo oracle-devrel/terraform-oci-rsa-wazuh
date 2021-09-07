@@ -51,13 +51,30 @@ data "template_file" wazuh_cluster_bootstrap {
   template = file("${path.module}/userdata/wazuh_bootstrap")
 
   vars = {
-    bootstrap_bucket           = var.bootstrap_bucket
-    bootstrap_bundle           = var.wazuh_bootstrap_bundle
-    playbook_name              = trimsuffix(var.wazuh_bootstrap_bundle, ".tgz")
-    ca_key                     = tls_private_key.ca.private_key_pem
-    ca_crt                     = tls_self_signed_cert.ca.cert_pem
-    wazuh_password             = random_password.wazuh_password.result
-    opendistro_admin_password  = random_password.opendistro_admin_password.result
-    wazuh_backup_bucket_name   = module.objectstore.wazuh_backup_bucket_name
+    bootstrap_bucket          = var.bootstrap_bucket
+    bootstrap_bundle          = var.wazuh_bootstrap_bundle
+    playbook_name             = trimsuffix(var.wazuh_bootstrap_bundle, ".tgz")
+    ca_key                    = tls_private_key.ca.private_key_pem
+    ca_crt                    = tls_self_signed_cert.ca.cert_pem
+    wazuh_password            = random_password.wazuh_password.result
+    opendistro_admin_password = random_password.opendistro_admin_password.result
+    wazuh_backup_bucket_name  = module.objectstore.wazuh_backup_bucket_name
+    node_type                 = "worker"
+  }
+}
+
+data "template_file" wazuh_master_bootstrap {
+  template = file("${path.module}/userdata/wazuh_bootstrap")
+
+  vars = {
+    bootstrap_bucket          = var.bootstrap_bucket
+    bootstrap_bundle          = var.wazuh_bootstrap_bundle
+    playbook_name             = trimsuffix(var.wazuh_bootstrap_bundle, ".tgz")
+    ca_key                    = tls_private_key.ca.private_key_pem
+    ca_crt                    = tls_self_signed_cert.ca.cert_pem
+    wazuh_password            = random_password.wazuh_password.result
+    opendistro_admin_password = random_password.opendistro_admin_password.result
+    wazuh_backup_bucket_name  = module.objectstore.wazuh_backup_bucket_name
+    node_type                 = "master"
   }
 }
