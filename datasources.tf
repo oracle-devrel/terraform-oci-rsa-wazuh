@@ -80,7 +80,7 @@ data "template_file" wazuh_master_bootstrap {
 }
 
 data "oci_dns_views" "primary_view" {
-    # Dns view for Primary VCN
-    compartment_id = var.compartment_ocid
-    scope = "PRIVATE"
+  # Dns view for Primary VCN
+  compartment_id = var.compartment_ocid
+  scope = "PRIVATE"
 }
