@@ -132,10 +132,10 @@ resource "oci_dns_rrset" "wazuhlb_dns_record" {
   compartment_id = var.compartment_ocid
 
   items {
-      domain = "${var.wazuh_record_items_domain}.${var.dns_zone_name}"
-      rdata = oci_load_balancer.wazuh_cluster_load_balancer.ip_address_details[0].ip_address
-      rtype = var.wazuh_record_items_rtype
-      ttl = var.wazuh_record_items_ttl
+    domain = "${var.wazuh_record_items_domain}.${var.dns_zone_name}"
+    rdata = oci_load_balancer.wazuh_cluster_load_balancer.ip_address_details[0].ip_address
+    rtype = var.wazuh_record_items_rtype
+    ttl = var.wazuh_record_items_ttl
   }
   scope = var.dns_zone_scope
   view_id = data.oci_dns_views.primary_view.views[0].id
