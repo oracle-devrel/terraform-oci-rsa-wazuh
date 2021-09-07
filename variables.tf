@@ -161,3 +161,42 @@ variable "instance_operating_system_version" {
   type        = string
   default     = "7.9"
 }
+
+# ---------------------------------------------------------------------------------------------------------------------
+# DNS setup
+# ---------------------------------------------------------------------------------------------------------------------
+variable "dns_zone_name" {
+  description = "The name of the wazuh private zone"
+  type        = string
+  default     = "wazuh-cluster.local"
+}
+
+variable "dns_zone_type" {
+  description = "The type of zone: primary or secondary"
+  type        = string
+  default     = "PRIMARY"
+}
+
+variable "dns_zone_scope" {
+  description = "The scope of zone: private or null"
+  type        = string
+  default     = "PRIVATE"
+}
+
+variable "wazuh_record_items_domain" {
+  description = "The fully qualified domain name for the wazuh load balancer"
+  type        = string
+  default     = "wazuh-lb"
+}
+
+variable "wazuh_record_items_rtype" {
+  description = "The type of dns record, such as an address record"
+  type        = string
+  default     = "A"
+}
+
+variable "wazuh_record_items_ttl" {
+  description = "The time to live in seconds for the wazuh record"
+  type        = number
+  default     = "60"
+}

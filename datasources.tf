@@ -78,3 +78,9 @@ data "template_file" wazuh_master_bootstrap {
     node_type                 = "master"
   }
 }
+
+data "oci_dns_views" "primary_view" {
+    # Dns view for Primary VCN
+    compartment_id = var.compartment_ocid
+    scope = "PRIVATE"
+}
