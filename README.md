@@ -9,3 +9,15 @@ terraform apply -target oci_core_instance.wazuh_workers
 terraform apply
 ```
 
+# How to retrieve sensitive output value
+Using following command to retrieve sensitive output value:
+```
+terraform output -raw <output_variable_name>
+```
+e.g.
+```
+terraform output -raw wazuh_password
+terraform output -raw opendistro_kibana_password 
+```
+
+
