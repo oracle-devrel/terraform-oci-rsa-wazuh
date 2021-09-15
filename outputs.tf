@@ -14,14 +14,17 @@ output "wazuh_subnet_cidr" {
 # ---------------------------------------------------------------------------------------------------------------------
 output "wazuh_password" {
   value = random_password.wazuh_password.result
+  sensitive = true
 }
 
 output "opendistro_kibana_password" {
   value = random_password.opendistro_kibana_password.result
+  sensitive = true
 }
 
 output "opendistro_admin_password" {
   value = random_password.opendistro_admin_password.result
+  sensitive = true
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
