@@ -1,18 +1,43 @@
 # OCI-RSA-TF-WAZUH
+This terraform stack deploys a Wazuh cluster to an Oracle Cloud Infrastructure (OCI) tenancy. 
+The stack uses the following OCI resources:
+- Compute
+- Identity and Access Management
+- Object Storage
+- Networking
+- Load Balancer
+
+An existing vcn with a route table, and NAT gateway are required to deploy the stack.
+
 
 ## Requirements
 
 - [Terraform]() >= 1.0.6
 
-## Dependencies
 
 
 ## Architecture
-
-
+The cluster consists of 
+- 1 master wazuh node
+- 2 worker nodes
+- 3 elastic search node
+- 1 kibana node.
 
 ![Alt text](https://documentation.wazuh.com/current/_images/deployment1.png)
 
+### IAM
+Includes dyanmic group for object storage bucket access.
+Policy for wazuh log backup
+
+### Object Storage
+Stores the backup logs for wazuh
+
+### Load Balancer
+Points to the Wazuh master and worker nodes. Distributes agent traffic between the master and worker nodes. 
+
+### Networking
+Creates a subnet with 3 security lists for wazuh, kibana, elasticsearch, and elasticsearch api.
+Creates a dns zone and records for cluster nodes.
 
 ## Branches
 * `main` branch contains the latest code.
