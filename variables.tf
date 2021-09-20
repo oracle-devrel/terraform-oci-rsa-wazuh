@@ -126,21 +126,25 @@ variable "es_cluster_tcp_range_max" {
 variable "bootstrap_bucket" {
   type        = string
   description = "Name of the bucket created during bootstrapping."
+  default     = "UNDEFINED"
 }
 
 variable "wazuh_bootstrap_bundle" {
   type        = string
   description = "File name for the bootstrap bundle for master or worker."
+  default     = "UNDEFINED"
 }
 
 variable "elastic_bootstrap_bundle" {
   type        = string
   description = "Playbook name for elastic cluster"
+  default     = "UNDEFINED"
 }
 
 variable "kibana_bootstrap_bundle" {
   type        = string
   description = "Playbook name for kibana"
+  default     = "UNDEFINED"
 }
 
 # ---------------------------------------------------------------------------------------------------------------------

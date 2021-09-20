@@ -15,18 +15,21 @@ An existing vcn with a route table, and NAT gateway are required to deploy the s
 - [Terraform]() >= 1.0.6
 
 
-
 ## Architecture
-The cluster consists of 
-- 1 master wazuh node
-- 2 worker nodes
-- 3 elastic search node
-- 1 kibana node.
 
 ![Alt text](https://documentation.wazuh.com/current/_images/deployment1.png)
 
+### Compute
+The cluster is configured to use: 
+- 1 manager Wazuh node
+- 2 worker Wazuh nodes
+- 3 Open Distro Elasticsearch nodes
+- 1 Kibana node
+
+These numbers can be modified to different cluster sizes.
+
 ### IAM
-Includes dyanmic group for object storage bucket access.
+Includes dynamic group for object storage bucket access.
 Policy for wazuh log backup
 
 ### Object Storage
@@ -44,8 +47,44 @@ Creates a dns zone and records for cluster nodes.
 
 
 ## Usage
+### Prerequisites
+Before you can run terraform, the required ansible playbooks should be bundled up with the dependancies and uploaded to object storage bucket.
+
+For each of the ansible playbooks, run the following commands.
+
+Assuming you have cloned the repository and are in the repository root:
+
+Command to install the ansible roles
+```
+ansible-galaxy install --ignore-certs -r requirements.yml -p ./.galaxy-roles
+```
+Command to install the ansible collections
+```
+ansible-galaxy collection install --ignore-certs -r requirements.yml -p ./.galaxy-collections
+```
+Command to bundle up the playbook.
+Here the `playbook_zip` is `target_dir/playbook_name`
+```
+tar -czf $playbook_zip $playbook_name
+```
+Command to upload the tar file to object storage
+```
+oci os object put -ns $namespace -bn $bucketname --file $playbook_zip --name ${playbook_name}.tgz
+```
+After terraform provisions the instance, the bootstrapping script pulls the appropriate tar file from object store and runs the playbook
 
 ### How to run this module
+If the bootstrapping variables are not set, the terraform will only provision the resources and not install the wazuh cluster through ansible. 
+
+#### Bootstrapping Variables
+Replace the following variables in order to deploy the Ansible playbooks during bootstrapping. The default value of these variables is `UNDEFINED`.
+
+- `bootstrap_bucket`: object storage bucket containing all the Ansible playbooks
+- `wazuh_bootstrap_bundle`: Ansible playbook for wazuh manager and workers instances 
+- `elastic_bootstrap_bundle`: Ansible playbook for elasticsearch instances
+- `kibana_bootstrap_bundle`: Ansible playbook for kibana instance
+
+#### Running Terraform
 You need to apply the target of oci_core_instance.wazuh_workers before you can apply the rest of the stack.
 
 ```
