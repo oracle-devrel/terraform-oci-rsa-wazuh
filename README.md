@@ -1,5 +1,5 @@
 # OCI-RSA-TF-WAZUH
-This terraform stack deploys a Wazuh cluster to an Oracle Cloud Infrastructure (OCI) tenancy. 
+This Terraform stack deploys a Wazuh cluster to an Oracle Cloud Infrastructure (OCI) tenancy. 
 The stack uses the following OCI resources:
 - Compute
 - Identity and Access Management
@@ -32,24 +32,26 @@ The cluster is configured to use:
 These numbers can be modified to different cluster sizes.
 
 ### IAM
-This template creates a dynamic group and an iam policy for object storage access. These are required for Wazuh log backups.
+This template creates a dynamic group, and an iam policy for object storage access. These are required for Wazuh log backups.
 
 ### Object Storage
 Used to store the backup logs for Wazuh.
 
 ### Load Balancer
-Used by this stack to distribute agent traffic between the master and worker nodes. Internally accessible by the agents through domain name `wazuh-lb.wazuh-cluster.local`.
+Used by this stack to distribute agent traffic between the master and worker nodes. Internally accessible by the agents 
+through domain name `wazuh-lb.wazuh-cluster.local`.
 
 ### Networking
-The terraform stack provisions a subnet with 3 security lists for Wazuh, Kibana, Open Distro for Elasticsearch, and Elasticsearch API.
-It also creates a dns zone and records for cluster nodes.
+The Terraform stack provisions a subnet with 3 security lists for Wazuh, Kibana, Open Distro for Elasticsearch, and 
+Elasticsearch API. It also creates a dns zone and records for cluster nodes.
 
 ## Branches
 * `main` branch contains the latest code.
-
+Terraform stack consists of a Wazuh, ElasticSearch and Kibana nodes. 
 
 ## Prerequisites
-Before you can run terraform, the required ansible playbooks should be bundled up with the dependancies and uploaded to an object storage bucket.
+Before you can run terraform, the required ansible playbooks should be bundled up with the dependancies and uploaded to 
+an object storage bucket.
 
 For each of the ansible playbooks, run the following commands.
 
@@ -57,7 +59,7 @@ Assuming you have cloned the repository and are in the repository root:
 
 Command to install the ansible roles
 ```
-ansible-galaxy install --ignore-certs -r requirements.yml -p ./.galaxy-roles
+ansible-galaxy install -r requirements.yml -p ./.galaxy-roles
 ```
 Command to bundle up the playbook.
 Here the `playbook_zip` is `target_dir/playbook_name`
@@ -68,18 +70,18 @@ Command to upload the tar file to object storage
 ```
 oci os object put -ns $namespace -bn $bucketname --file $playbook_zip --name ${playbook_name}.tgz
 ```
-After terraform provisions the instance, the bootstrapping script pulls the appropriate tar file from object store and runs the playbook.
+After Terraform provisions the instance, the bootstrapping script pulls the appropriate tar file from object store and runs the playbook.
 
 ## Usage
-If the bootstrapping variables are not set, the terraform will only provision the resources and not install the wazuh cluster through ansible. 
+If the bootstrapping variables are not set, Terraform will only provision the resources and not install the wazuh cluster through ansible. 
 
 ### Bootstrapping Variables
-Replace the following variables in order to deploy the Ansible playbooks during bootstrapping. The default value of these variables is `UNDEFINED`.
+Define the following variables in order to deploy the Ansible playbooks during bootstrapping. The default value of these variables is `UNDEFINED`.
 
-- `bootstrap_bucket`: object storage bucket containing all the Ansible playbooks
-- `wazuh_bootstrap_bundle`: `oci-rsa-ansible-wazuh.tgz` - Ansible playbook for wazuh manager and workers instances
-- `elastic_bootstrap_bundle`: `oci-rsa-ansible-wazuh-odfe.tgz` - Ansible playbook for elasticsearch instances
-- `kibana_bootstrap_bundle`: `oci-rsa-ansible-wazuh-kibana.tgz` - Ansible playbook for kibana instance
+- `bootstrap_bucket`: Object storage bucket containing all the Ansible playbooks. For example `my_bootstrap_bucket`
+- `wazuh_bootstrap_bundle`:  The tgz containing the Ansible playbook for wazuh manager and workers instances. For example `oci-rsa-ansible-wazuh.tgz`
+- `elastic_bootstrap_bundle`: The tgz containing the Ansible playbook for elasticsearch instances. For example `oci-rsa-ansible-wazuh-odfe.tgz`
+- `kibana_bootstrap_bundle`:  The tgz containing the Ansible playbook for kibana instance. For example `oci-rsa-ansible-wazuh-kibana.tgz`
 
 ### Terraform Variables
 Terraform variables used in this stack are referenced [here](VARIABLES.md).
@@ -109,7 +111,7 @@ terraform output -raw opendistro_kibana_password
 * [Full documentation](http://documentation.wazuh.com)
 
 ## The Team
-This repository was developed by the Oracle OCI Regulatory Solutions and Automation(RSA) team. 
+This repository was developed by the Oracle OCI Regulatory Solutions and Automation (RSA) team. 
 
 ## How to Contribute
 Interested in contributing?  See our contribution [guidelines](CONTRIBUTE.md) for details.
