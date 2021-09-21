@@ -108,6 +108,9 @@ terraform output -raw opendistro_kibana_password
 * [Wazuh Ansible documentation](https://documentation.wazuh.com/current/deploying-with-ansible/index.html)
 * [Full documentation](http://documentation.wazuh.com)
 
+## The Team
+This repository was developed by the Oracle OCI Regulatory Solutions and Automation(RSA) team. 
+
 ## How to Contribute
 Interested in contributing?  See our contribution [guidelines](CONTRIBUTE.md) for details.
 
