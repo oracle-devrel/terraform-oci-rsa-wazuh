@@ -84,7 +84,12 @@ Define the following variables in order to deploy the Ansible playbooks during b
 - `kibana_bootstrap_bundle`:  The tgz containing the Ansible playbook for kibana instance. For example `oci-rsa-ansible-wazuh-kibana.tgz`
 
 ### Terraform Variables
-Terraform variables used in this stack are referenced [here](VARIABLES.md).
+Terraform variables used in this stack are referenced [here](VARIABLES.md). These variables are automatically generated 
+using the following command:
+
+```
+terraform-docs markdown table .
+```
 
 ### Running Terraform
 You need to apply the target of `oci_core_instance.wazuh_workers` before you can apply the rest of the stack.
