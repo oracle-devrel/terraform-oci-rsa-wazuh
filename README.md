@@ -59,7 +59,7 @@ Assuming you have cloned the repository and are in the repository root:
 
 Command to install the ansible roles
 ```
-ansible-galaxy install -r requirements.yml -p ./.galaxy-roles
+ansible-galaxy install -r requirements.yml -p ./roles
 ```
 Command to bundle up the playbook.
 Here the `playbook_zip` is `target_dir/playbook_name`
@@ -85,7 +85,7 @@ Define the following variables in order to deploy the Ansible playbooks during b
 
 ### Terraform Variables
 Terraform variables used in this stack are referenced [here](VARIABLES.md). This document is automatically generated 
-using the `terraform-docs` with the following command:
+using the [terraform-docs](https://github.com/terraform-docs/terraform-docs) with the following command:
 
 ```
 terraform-docs markdown table .
