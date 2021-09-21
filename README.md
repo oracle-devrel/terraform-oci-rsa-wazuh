@@ -79,13 +79,13 @@ If the bootstrapping variables are not set, Terraform will only provision the re
 Define the following variables in order to deploy the Ansible playbooks during bootstrapping. The default value of these variables is `UNDEFINED`.
 
 - `bootstrap_bucket`: Object storage bucket containing all the Ansible playbooks. For example `my_bootstrap_bucket`
-- `wazuh_bootstrap_bundle`:  The tgz containing the Ansible playbook for wazuh manager and workers instances. For example `oci-rsa-ansible-wazuh.tgz`
-- `elastic_bootstrap_bundle`: The tgz containing the Ansible playbook for elasticsearch instances. For example `oci-rsa-ansible-wazuh-odfe.tgz`
-- `kibana_bootstrap_bundle`:  The tgz containing the Ansible playbook for kibana instance. For example `oci-rsa-ansible-wazuh-kibana.tgz`
+- `wazuh_bootstrap_bundle`:  The tgz containing the Ansible playbook for Wazuh manager and workers instances. For example `oci-rsa-ansible-wazuh.tgz`
+- `elastic_bootstrap_bundle`: The tgz containing the Ansible playbook for ElasticSearch instances. For example `oci-rsa-ansible-wazuh-odfe.tgz`
+- `kibana_bootstrap_bundle`:  The tgz containing the Ansible playbook for Kibana instance. For example `oci-rsa-ansible-wazuh-kibana.tgz`
 
 ### Terraform Variables
-Terraform variables used in this stack are referenced [here](VARIABLES.md). These variables are automatically generated 
-using the following command:
+Terraform variables used in this stack are referenced [here](VARIABLES.md). This document is automatically generated 
+using the `terraform-docs` with the following command:
 
 ```
 terraform-docs markdown table .
