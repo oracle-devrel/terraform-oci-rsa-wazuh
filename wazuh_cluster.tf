@@ -125,17 +125,20 @@ resource "random_password" "wazuh_password" {
   min_special      = 1
 }
 
+module "iam" {
+  source                   = "./wazuh_logs/iam"
+  tenancy_ocid             = var.tenancy_ocid
+  compartment_ocid         = var.compartment_ocid
+  region                   = var.region
+  unique_prefix            = var.unique_prefix
+  bucket_suffix            = "wazuh-backup-bucket"
+  #wazuh_backup_bucket_name = module.objectstore.wazuh_backup_bucket_name
+}
+
 module "objectstore" {
+  depends_on       = [ module.iam ]
   source           = "./wazuh_logs/objectstore"
   compartment_ocid = var.compartment_ocid
   unique_prefix    = var.unique_prefix
   bucket_suffix    = "wazuh-backup-bucket"
-}
-
-module "iam" {
-  source                    = "./wazuh_logs/iam"
-  tenancy_ocid              = var.tenancy_ocid
-  compartment_ocid          = var.compartment_ocid
-  region                    = var.region
-  wazuh_backup_bucket_name  = module.objectstore.wazuh_backup_bucket_name
 }
