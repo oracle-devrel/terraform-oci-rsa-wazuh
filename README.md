@@ -1,4 +1,4 @@
-# OCI-RSA-TF-WAZUH
+# TERRAFORM-OCI-RSA-WAZUH
 This Terraform stack deploys a Wazuh cluster to an Oracle Cloud Infrastructure (OCI) tenancy. 
 The stack uses the following OCI resources:
 - Compute
