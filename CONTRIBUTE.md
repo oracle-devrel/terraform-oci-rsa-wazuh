@@ -1,4 +1,4 @@
-# Contributing to OCI-RSA-TF-WAZUH Quick Start Template
+# Contributing to TERRAFORM-OCI-RSA-WAZUH Quick Start Template
 
 Oracle welcomes contributions to this repository from anyone.
 
