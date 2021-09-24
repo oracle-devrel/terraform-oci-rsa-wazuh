@@ -30,3 +30,8 @@ resource "oci_identity_policy" "wazuh_log_backups" {
     "Allow service objectstorage-${var.region} to manage object-family in compartment id ${var.compartment_ocid}"
   ]
 }
+
+resource "time_sleep" "sleep_for_policy_create" {
+  depends_on = [ oci_identity_policy.wazuh_log_backups ]
+  create_duration = "30s"
+}

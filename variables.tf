@@ -86,8 +86,8 @@ variable "elastic_node_instance_count" {
 # ---------------------------------------------------------------------------------------------------------------------
 variable "wazuh_cluster_lb_ports" {
   description = "Wazuh inbound ports for the load balancer"
-  type        = list(string)
-  default     = ["1514", "1515"]
+  type        = list(number)
+  default     = [1514, 1515]
 }
 
 variable "wazuh_ingress_ports" {
@@ -199,4 +199,24 @@ variable "wazuh_record_items_ttl" {
   description = "The time to live in seconds for the wazuh record"
   type        = number
   default     = "60"
+}
+
+
+# Autoscaling Values
+variable "wazuh_worker_autoscaling_min" {
+  description = "Minimum number of Wazuh worker instances"
+  type        = number
+  default     = "3"
+}
+
+variable "wazuh_worker_autoscaling_initial" {
+  description = "Initial number of Wazuh worker instances"
+  type        = number
+  default     = "3"
+}
+
+variable "wazuh_worker_autoscaling_max" {
+  description = "Max number of Wazuh worker instances"
+  type        = number
+  default     = "4"
 }
