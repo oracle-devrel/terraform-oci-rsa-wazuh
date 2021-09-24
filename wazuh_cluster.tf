@@ -56,7 +56,6 @@ resource "oci_core_instance_configuration" "wazuh_worker_configuration" {
     instance_type = "compute"
       launch_details {
         compartment_id                      = var.compartment_ocid
-        #availability_domain                 = lookup(data.oci_identity_availability_domains.ad.availability_domains[0],"name")
         shape                               = var.wazuh_worker_instance_shape
         is_pv_encryption_in_transit_enabled = true
         display_name                        = "WazuhWorkerConfiguration"
@@ -125,18 +124,7 @@ resource "oci_core_instance_pool" "wazuh_worker_pool" {
     primary_subnet_id   = oci_core_subnet.wazuh_subnet.id
   }
 
-  #dynamic load_balancers {
-    #for_each = oci_load_balancer_backend_set.wazuh_cluster_lb_backend_sets
-    #content {
-      #backend_set_name = load_balancers.value.name
-      #load_balancer_id = oci_load_balancer.wazuh_cluster_load_balancer.id
-      #port            = load_balancers.backend.port
-      #port            = var.wazuh_cluster_lb_ports[0]
-      #port             = load_balancers.value.backend.port
-      #vnic_selection   = "PrimaryVnic"
-    #}
-  #}
-
+# One load balancer backend per Wazuh port
   load_balancers {
     backend_set_name = "wazuh-cluster-bes-${var.wazuh_cluster_lb_ports[0]}"
     load_balancer_id = oci_load_balancer.wazuh_cluster_load_balancer.id
