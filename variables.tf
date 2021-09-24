@@ -206,13 +206,13 @@ variable "wazuh_record_items_ttl" {
 variable "wazuh_worker_autoscaling_min" {
   description = "Minimum number of Wazuh worker instances"
   type        = number
-  default     = "3"
+  default     = "2"
 }
 
 variable "wazuh_worker_autoscaling_initial" {
   description = "Initial number of Wazuh worker instances"
   type        = number
-  default     = "3"
+  default     = "2"
 }
 
 variable "wazuh_worker_autoscaling_max" {

@@ -9,6 +9,10 @@ output "wazuh_subnet_cidr" {
   value = oci_core_subnet.wazuh_subnet.cidr_block
 }
 
+output "kibana_frontend_ip" {
+  value = oci_core_instance.kibana.private_ip
+}
+
 # ---------------------------------------------------------------------------------------------------------------------
 # Return the passwords for ElasticSearch and Wazuh
 # ---------------------------------------------------------------------------------------------------------------------
