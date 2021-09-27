@@ -92,15 +92,14 @@ terraform-docs markdown table .
 ```
 
 ### Running Terraform
-You need to apply the target of `oci_core_instance.wazuh_workers` before you can apply the rest of the stack.
+A single `terraform apply` should bring up the entire stack, and return useful variables back to the terminal.
 
 ```
-terraform apply -target oci_core_instance.wazuh_workers
 terraform apply
 ```
 
-### How to retrieve sensitive output value
-Using following command to retrieve sensitive output value:
+### How to retrieve sensitive output values
+Using following command to retrieve any sensitive output value:
 ```
 terraform output -raw <output_variable_name>
 ```
