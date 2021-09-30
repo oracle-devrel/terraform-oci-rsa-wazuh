@@ -215,6 +215,7 @@ resource "oci_load_balancer_backend" "wazuh_cluster_master_backends" {
   depends_on       = [ oci_load_balancer_backend_set.wazuh_cluster_lb_backend_sets, ]
 }
 
+# Special character limitations for use with filebeat plugin
 resource "random_password" "wazuh_password" {
   length      = 16
   special     = true
@@ -223,6 +224,7 @@ resource "random_password" "wazuh_password" {
   min_lower   = 2
   min_numeric = 2
   min_special = 1
+  override_special = "#$()-_=+<?"
 }
 
 module "iam" {
