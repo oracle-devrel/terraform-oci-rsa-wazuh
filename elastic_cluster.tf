@@ -127,6 +127,7 @@ resource "random_password" "opendistro_kibana_password" {
   min_lower        = 2
   min_numeric      = 2
   min_special      = 1
+  override_special = "#$()-_=+<?"
 }
 
 resource "random_password" "opendistro_admin_password" {
@@ -137,4 +138,5 @@ resource "random_password" "opendistro_admin_password" {
   min_lower        = 2
   min_numeric      = 2
   min_special      = 1
+  override_special = "#$()-_=+<?"
 }
