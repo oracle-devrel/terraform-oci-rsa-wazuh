@@ -98,6 +98,17 @@ A single `terraform apply` should bring up the entire stack, and return useful v
 terraform apply
 ```
 
+### Logging Into Wazuh
+Once Terraform has run, and the instances have completed their bootstrap 
+process, you should be able to log into the Kibana interface and Wazuh plugin.
+
+Ideally you are connecting through an SSH tunnel, directed to the
+**kibana_frontend_ip** on port 5601. For example - Using a web browser,
+a login URL would look like this: **https://localhost:5601/app/wazuh**
+
+The default username is admin, and the password is provided
+in **kibana_admin_password**, which can be retrieved from Terrafrom output.
+
 ### How to retrieve sensitive output values
 Using following command to retrieve any sensitive output value:
 ```
@@ -105,8 +116,7 @@ terraform output -raw <output_variable_name>
 ```
 e.g.
 ```
-terraform output -raw wazuh_password
-terraform output -raw opendistro_kibana_password 
+terraform output -raw kibana_admin_password
 ```
 
 ## Documentation
