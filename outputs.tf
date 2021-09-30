@@ -26,9 +26,10 @@ output "opendistro_kibana_password" {
   sensitive = true
 }
 
-output "opendistro_admin_password" {
-  value = random_password.opendistro_admin_password.result
-  sensitive = true
+output "kibana_admin_password" {
+  description = "The password needed to log into Kibana/Wazuh"
+  value       = random_password.opendistro_admin_password.result
+  sensitive   = true
 }
 
 # ---------------------------------------------------------------------------------------------------------------------

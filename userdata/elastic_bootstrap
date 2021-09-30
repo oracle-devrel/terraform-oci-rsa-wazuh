@@ -5,7 +5,22 @@ exec > >(tee /var/log/user-data.log|logger -t user-data ) 2>&1
 echo BEGIN
 date '+%Y-%m-%d %H:%M:%S'
 
-yum update -y
+# To prevent bootstrap issues when yum locks up
+yumlog="/tmp/yum-update.log"
+yum update -y > $yumlog 2>&1 &
+pid=$!
+sleep 300
+tail -1 $yumlog | grep "^Delta RPMs disabled because" > /dev/null 2>&1
+if [ $? -eq "0" ]
+then
+  kill -9 $pid
+  echo "OS Patching Failed"
+else
+  wait $pid
+fi
+
+echo "Yum Update Log:"
+cat $yumlog
 
 # Enable EPEL and install Ansible
 yum-config-manager --enable ol7_developer_EPEL
@@ -17,9 +32,6 @@ export OCI_RSA_BASE='/opt/oci-rsa'
 export PACKAGE_CACHE="$OCI_RSA_BASE/package_cache"
 
 mkdir -p $PACKAGE_CACHE
-
-# ${bootstrap_bucket}
-# ${bootstrap_bundle}
 
 # Prep self signed CA location
 umask 077
@@ -33,7 +45,7 @@ ${ca_key}
 EOF
 
 function write_passwords_to_yml {
-  cat << EOF > $OCI_RSA_BASE/extra-variables.yml
+  cat << 'EOF' > $OCI_RSA_BASE/extra-variables.yml
   opendistro_admin_password: "${opendistro_admin_password}"
   opendistro_kibana_password: "${opendistro_kibana_password}"
 EOF
