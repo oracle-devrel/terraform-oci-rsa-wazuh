@@ -227,6 +227,12 @@ resource "random_password" "wazuh_password" {
   override_special = "#$()-_=+<?"
 }
 
+resource "random_string" "wazuh_cluster_key" {
+  length  = 32
+  special = false
+  number  = true
+}
+
 module "iam" {
   source           = "./wazuh_logs/iam"
   tenancy_ocid     = var.tenancy_ocid
