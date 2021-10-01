@@ -60,6 +60,7 @@ data "template_file" wazuh_cluster_bootstrap {
     opendistro_admin_password = random_password.opendistro_admin_password.result
     wazuh_backup_bucket_name  = module.objectstore.wazuh_backup_bucket_name
     node_type                 = "worker"
+    wazuh_cluster_key         = random_string.wazuh_cluster_key.result
   }
 }
 
@@ -76,6 +77,7 @@ data "template_file" wazuh_master_bootstrap {
     opendistro_admin_password = random_password.opendistro_admin_password.result
     wazuh_backup_bucket_name  = module.objectstore.wazuh_backup_bucket_name
     node_type                 = "master"
+    wazuh_cluster_key         = random_string.wazuh_cluster_key.result
   }
 }
 

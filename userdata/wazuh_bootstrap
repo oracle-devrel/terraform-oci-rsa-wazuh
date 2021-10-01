@@ -52,6 +52,7 @@ function write_passwords_to_yml {
   elasticsearch_security_password: "${opendistro_admin_password}"
   wazuh_backup_bucket_name: "${wazuh_backup_bucket_name}"
   wazuh_node_type: "${node_type}"
+  wazuh_cluster_key: "${wazuh_cluster_key}"
 EOF
 }
 
