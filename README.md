@@ -10,9 +10,9 @@ The stack uses the following OCI resources:
 An existing vcn with a route table, and NAT gateway are required to deploy the stack.
 
 The stack is intended to be used in conjunction with the following ansible playbooks.
-- [oci-rsa-ansible-wazuh](PLACEHOLDER)
-- [oci-rsa-ansible-wazuh-kibana](PLACEHOLDER)
-- [oci-rsa-ansible-wazuh-odfe](PLACEHOLDER)
+- [oci-rsa-ansible-wazuh](https://github.com/oracle-quickstart/oci-rsa-ansible-wazuh)
+- [oci-rsa-ansible-wazuh-kibana](https://github.com/oracle-quickstart/oci-rsa-ansible-wazuh-kibana)
+- [oci-rsa-ansible-wazuh-odfe](https://github.com/oracle-quickstart/oci-rsa-ansible-wazuh-odfe)
 
 If these playbooks are not appropriately provided the stack will only provision the instances and not deploy the Wazuh cluster.
 
