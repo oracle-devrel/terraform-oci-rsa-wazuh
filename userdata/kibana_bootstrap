@@ -1,0 +1,74 @@
+#!/bin/bash
+# Debugging / Logging
+set -x
+exec > >(tee /var/log/user-data.log|logger -t user-data ) 2>&1
+echo BEGIN
+date '+%Y-%m-%d %H:%M:%S'
+
+# To prevent bootstrap issues when yum locks up
+yumlog="/tmp/yum-update.log"
+yum update -y > $yumlog 2>&1 &
+pid=$!
+sleep 300
+tail -1 $yumlog | grep "^Delta RPMs disabled because" > /dev/null 2>&1
+if [ $? -eq "0" ]
+then
+  kill -9 $pid
+  echo "OS Patching Failed"
+else
+  wait $pid
+fi
+
+echo "Yum Update Log:"
+cat $yumlog
+
+# Enable EPEL and install Ansible
+yum-config-manager --enable ol7_developer_EPEL
+yum -y install ansible
+
+export OCI_CLI_AUTH=instance_principal
+export PATH="$PATH:/usr/bin"
+export OCI_RSA_BASE='/opt/oci-rsa'
+export PACKAGE_CACHE="$OCI_RSA_BASE/package_cache"
+
+mkdir -p $PACKAGE_CACHE
+
+# Prep self signed CA location
+umask 077
+mkdir -p /etc/ssl/local/certs
+cat > /etc/ssl/local/certs/root-ca.pem << EOF
+${ca_crt}
+EOF
+
+cat > /etc/ssl/local/certs/root-ca.key << EOF
+${ca_key}
+EOF
+
+function write_passwords_to_yml {
+  cat << 'EOF' > $OCI_RSA_BASE/extra-variables.yml
+  opendistro_kibana_password: "${opendistro_kibana_password}"
+  opendistro_admin_password: "${opendistro_admin_password}"
+  wazuh_password: "${wazuh_password}"
+EOF
+}
+
+# Temporarily disable SELinux - required for firewalld updates during user-data
+setenforce 0
+
+if [ ${bootstrap_bucket} == "UNDEFINED" ] || [ ${bootstrap_bundle} == "UNDEFINED" ]
+then
+  echo "Bootstrap values not provided. Skipping Ansible run."
+else
+  oci os object get -bn ${bootstrap_bucket} --file $PACKAGE_CACHE/${bootstrap_bundle} --name ${bootstrap_bundle}
+  if [ $? -eq 0 ]
+  then
+    tar zxf $PACKAGE_CACHE/${bootstrap_bundle} -C $OCI_RSA_BASE
+    write_passwords_to_yml;
+    export ANSIBLE_ROLES_PATH="$OCI_RSA_BASE/${playbook_name}/.galaxy"
+    umask 022
+    ansible-playbook -i localhost, $OCI_RSA_BASE/${playbook_name}/main.yml --connection=local 
+  fi
+fi
+
+# Re-enable SELinux
+setenforce 1
